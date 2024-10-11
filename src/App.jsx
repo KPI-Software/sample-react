@@ -12,6 +12,25 @@ function App() {
     localStorage.setItem("tasks", JSON.stringify(tasks));
   }, [tasks]);
 
+  // Ordena as tasks sem gerar um loop infinito
+  function getSortedTasks(tasks) {
+    return [...tasks].sort((a, b) => {
+      // Primeiro critério: reminder false antes de reminder true
+      if (a.reminder === true && b.reminder === false) {
+        return 1; // Coloca 'a' depois de 'b'
+      }
+      if (a.reminder === false && b.reminder === true) {
+        return -1; // Coloca 'a' antes de 'b'
+      }
+      // Segundo critério: ordenar por id decrescente
+      const textComparison = a.text.localeCompare(b.text);
+      if (textComparison !== 0) {
+        return textComparison;
+      }
+      return 0;
+    });
+  }
+
   // useEffect(() => {
   //   const fetchData = async () => {
   //     const response = await fetch(
@@ -33,12 +52,12 @@ function App() {
 
       return task;
     });
-    setTasks(newTasks);
+    setTasks(getSortedTasks(newTasks));
   }
 
   function onDeleteClick(taskId) {
     const newTasks = tasks.filter((task) => task.id !== taskId);
-    setTasks(newTasks);
+    setTasks(getSortedTasks(newTasks));
   }
 
   function onAddClick(title) {
@@ -48,14 +67,14 @@ function App() {
       reminder: false,
     };
 
-    const updatedTasks = [...tasks, newTasks].sort((a, b) => b.id - a.id);
-    setTasks(updatedTasks); // Atualiza o estado com a lista ordenada
+    const updatedTasks = [...tasks, newTasks];
+    setTasks(getSortedTasks(updatedTasks)); // Atualiza o estado com a lista ordenada
   }
 
   return (
     <div className="w-screen h-screen bg-slate-500 flex justify-center p-6">
       <div className="w-[500] space-y-4">
-        <Title>Gerenciador de Compra</Title>
+        <Title>Gerenciador de Compras</Title>
         <AddTasks onAddClick={onAddClick} />
         <Tasks
           tasks={tasks}
