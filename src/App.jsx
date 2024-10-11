@@ -62,7 +62,7 @@ function App() {
 
   function onAddClick(title) {
     const newTasks = {
-      id: tasks.length + 1,
+      id: Date.now(),
       text: title,
       reminder: false,
     };

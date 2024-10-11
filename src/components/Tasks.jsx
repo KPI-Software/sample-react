@@ -21,7 +21,9 @@ function Tasks(props) {
         <li key={task.id} className="flex gap-2">
           <button
             onClick={() => props.onTaskClick(task.id)}
-            className={`bg-slate-400 text-left flex items-center w-full text-white p-2 rounded-md`}
+            className={`bg-slate-400 text-left flex items-center w-full text-white p-2 rounded-md ${
+              task.reminder && "bg-orange-600"
+            }`}
           >
             {task.reminder && <CheckIcon />}
             {task.text}
