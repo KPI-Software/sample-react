@@ -41,11 +41,10 @@ function App() {
     setTasks(newTasks);
   }
 
-  function onAddClick(title, description) {
+  function onAddClick(title) {
     const newTasks = {
       id: tasks.length + 1,
       text: title,
-      description: description,
       reminder: false,
     };
 
@@ -56,7 +55,7 @@ function App() {
   return (
     <div className="w-screen h-screen bg-slate-500 flex justify-center p-6">
       <div className="w-[500] space-y-4">
-        <Title>Gerenciador de Tarefas</Title>
+        <Title>Gerenciador de Compra</Title>
         <AddTasks onAddClick={onAddClick} />
         <Tasks
           tasks={tasks}
